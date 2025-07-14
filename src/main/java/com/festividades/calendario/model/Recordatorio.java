@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Data
 public class Recordatorio {
@@ -20,7 +22,13 @@ public class Recordatorio {
 
     @ManyToOne
     @JoinColumn(name = "festividad_id", nullable = true)
+    @JsonBackReference
     private Festividad festividad;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    @JsonBackReference
+    private Usuario usuario;
 
     // Getters y setters
 

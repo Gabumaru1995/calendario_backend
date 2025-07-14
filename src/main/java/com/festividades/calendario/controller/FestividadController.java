@@ -21,9 +21,9 @@ public class FestividadController {
         return festividadRepository.findAll();
     }
 
-    @GetMapping("/provincia/{id}")
+    @GetMapping("/canton/{id}")
     public List<Festividad> festividadesPorProvincia(@PathVariable("id") Long id) {
-        return festividadRepository.findByProvinciaId(id);
+        return festividadRepository.findByCantonId(id);
     }
 
     @GetMapping("/buscar")

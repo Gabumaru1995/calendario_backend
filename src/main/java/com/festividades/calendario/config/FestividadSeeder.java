@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.festividades.calendario.repository.CantonRepository;
 import com.festividades.calendario.repository.FestividadRepository;
 import com.festividades.calendario.repository.ProvinciaRepository;
 
@@ -13,398 +14,1608 @@ import com.festividades.calendario.model.Festividad;
 @Component
 public class FestividadSeeder implements CommandLineRunner {
 
-    @Autowired
-    private ProvinciaRepository provinciaRepository;
+        private final FestividadRepository festividadRepository;
+        private final CantonRepository cantonRepository;
 
-    @Autowired
-    private FestividadRepository festividadRepository;
+        public FestividadSeeder(FestividadRepository festividadRepository, CantonRepository cantonRepository) {
+                this.festividadRepository = festividadRepository;
+                this.cantonRepository = cantonRepository;
+        }
 
-    @Override
-    public void run(String... args) throws Exception {
-        // Azuay
-        provinciaRepository.findByNombre("Azuay").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Cuenca",
-                    "Celebración de la fundación de Santa Ana de los Ríos de Cuenca en 1557, con desfiles cívicos y eventos culturales.",
-                    LocalDate.of(2025, 4, 12),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Cuenca",
-                    "Conmemora la gesta independentista de Cuenca del 3 de noviembre de 1820, con actos cívicos y festividades locales.",
-                    LocalDate.of(2025, 11, 3),
-                    provincia));
-        });
+        @Override
+        public void run(String... args) throws Exception {
+                long count = festividadRepository.count();
+                System.out.println("FestividadSeeder ejecutado");
+                if (count > 0) {
+                        System.out.println("ℹ Ya existen festividades. No se insertaron nuevamente.");
+                        return;
+                }
 
-        // Bolívar
-        provinciaRepository.findByNombre("Bolívar").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Carnaval de Guaranda",
-                    "Fiesta de Carnaval en Guaranda, famosa por sus comparsas, música folclórica y la tradicional bebida \"pájaro azul\".",
-                    LocalDate.of(2025, 3, 3),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Guaranda",
-                    "Conmemora la independencia de Guaranda del 10 de noviembre de 1820, celebrada con desfiles y actos culturales en la capital provincial.",
-                    LocalDate.of(2025, 11, 10),
-                    provincia));
-        });
+                // 🎉 Festividades en la provincia de Azuay
+                cantonRepository.findByNombre("Cuenca").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fundación de Cuenca",
+                                        "Celebración de la fundación de Cuenca en 1557.",
+                                        LocalDate.of(2025, 4, 12),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Independencia de Cuenca",
+                                        "Conmemora la gesta independentista del 3 de noviembre de 1820.",
+                                        LocalDate.of(2025, 11, 3),
+                                        canton));
+                });
 
-        // Cañar
-        provinciaRepository.findByNombre("Cañar").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Cantonización de Azogues",
-                    "Aniversario de la cantonización de Azogues, capital provincial, ocurrido el 16 de abril de 1825, celebrado con desfiles y eventos cívicos.",
-                    LocalDate.of(2025, 4, 16),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Azogues",
-                    "Conmemora el levantamiento independentista de Azogues del 4 de noviembre de 1820, con actos cívicos y festivales locales.",
-                    LocalDate.of(2025, 11, 4),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Gualaceo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta del Señor de Gualaceo",
+                                        "Celebración religiosa tradicional del cantón Gualaceo.",
+                                        LocalDate.of(2025, 9, 14),
+                                        canton));
+                });
 
-        // Carchi
-        provinciaRepository.findByNombre("Carchi").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización del Carchi",
-                    "Recuerda la creación de la provincia del Carchi el 19 de noviembre de 1880, celebrada con desfiles cívicos en Tulcán y demás cantones.",
-                    LocalDate.of(2025, 11, 19),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Paute").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de la Merced",
+                                        "Fiesta religiosa y cultural celebrada en septiembre.",
+                                        LocalDate.of(2025, 9, 24),
+                                        canton));
+                });
 
-        // Chimborazo
-        provinciaRepository.findByNombre("Chimborazo").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Independencia de Riobamba",
-                    "Conmemora la independencia de Riobamba del 21 de abril de 1822, primera ciudad liberada antes de la Batalla de Pichincha.",
-                    LocalDate.of(2025, 4, 21),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fundación de Riobamba",
-                    "Celebra la fundación de la ciudad de Riobamba (primera en el territorio ecuatoriano) en época colonial, con eventos culturales y cívicos.",
-                    LocalDate.of(2025, 11, 11),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Santa Isabel").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Santa Isabel",
+                                        "Fiesta de aniversario del cantón.",
+                                        LocalDate.of(2025, 4, 1),
+                                        canton));
+                });
 
-        // Cotopaxi
-        provinciaRepository.findByNombre("Cotopaxi").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Cotopaxi",
-                    "Aniversario de la provincialización de Cotopaxi (1 de abril de 1851), conmemorando la creación de la provincia con eventos cívicos.",
-                    LocalDate.of(2025, 4, 1),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Latacunga",
-                    "Conmemora la independencia de Latacunga del 11 de noviembre de 1820, celebrada con desfiles y la tradicional Fiesta de la Mama Negra en honor a la Virgen de La Merced.",
-                    LocalDate.of(2025, 11, 11),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Giron").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Batalla de Tapi",
+                                        "Conmemoración de la batalla del 27 de febrero de 1829.",
+                                        LocalDate.of(2025, 2, 27),
+                                        canton));
+                });
 
-        // El Oro
-        provinciaRepository.findByNombre("El Oro").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización de El Oro",
-                    "Celebra la creación de la provincia de El Oro el 23 de abril de 1884, con actos cívicos en Machala y demás cantones orenses.",
-                    LocalDate.of(2025, 4, 23),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Cantonización de Machala",
-                    "Aniversario de la cantonización de Machala (25 de junio de 1824), recordando el establecimiento de la ciudad como cantón y capital provincial.",
-                    LocalDate.of(2025, 6, 25),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Nabón").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta de la Virgen del Rosario",
+                                        "Celebración religiosa de gran tradición en Nabón.",
+                                        LocalDate.of(2025, 10, 7),
+                                        canton));
+                });
 
-        // Esmeraldas
-        provinciaRepository.findByNombre("Esmeraldas").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Independencia de Esmeraldas",
-                    "Recuerda el 5 de agosto de 1820, cuando patriotas en la provincia de Esmeraldas proclamaron su emancipación de España; se realizan desfiles y eventos cívicos.",
-                    LocalDate.of(2025, 8, 5),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Esmeraldas",
-                    "Conmemora la creación de la provincia de Esmeraldas el 20 de noviembre de 1847, celebrada con eventos cívicos y culturales en la ciudad de Esmeraldas.",
-                    LocalDate.of(2025, 11, 21),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Oña").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Vicente Ferrer",
+                                        "Fiestas religiosas en honor al patrono del cantón.",
+                                        LocalDate.of(2025, 4, 5),
+                                        canton));
+                });
 
-        // Galápagos
-        provinciaRepository.findByNombre("Galápagos").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Galápagos",
-                    "Conmemora la conversión del archipiélago de Galápagos en la 20ª provincia del Ecuador, el 18 de febrero de 1973; se realizan actos cívicos en Puerto Baquerizo Moreno.",
-                    LocalDate.of(2025, 2, 18),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Pucará").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Pucará",
+                                        "Aniversario de creación del cantón Pucará.",
+                                        LocalDate.of(2025, 11, 20),
+                                        canton));
+                });
 
-        // Guayas
-        provinciaRepository.findByNombre("Guayas").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Guayaquil",
-                    "Fiesta cívica en conmemoración de la fundación de Santiago de Guayaquil (25 de julio de 1538), celebrada con desfiles náuticos, eventos culturales y artísticos.",
-                    LocalDate.of(2025, 7, 25),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Guayaquil",
-                    "Celebración de la independencia de Guayaquil del 9 de octubre de 1820, con desfiles estudiantiles, eventos cívicos y verbenas populares en la ciudad porteña.",
-                    LocalDate.of(2025, 10, 9),
-                    provincia));
-        });
+                cantonRepository.findByNombre("San Fernando").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de la Nube",
+                                        "Celebración religiosa en honor a la Virgen de la Nube.",
+                                        LocalDate.of(2025, 1, 1),
+                                        canton));
+                });
 
-        // Imbabura
-        provinciaRepository.findByNombre("Imbabura").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Imbabura",
-                    "Celebra el aniversario de la provincialización de Imbabura (25 de junio de 1824), con actos cívicos que recuerdan la creación de la provincia.",
-                    LocalDate.of(2025, 6, 25),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fundación de Ibarra",
-                    "Recuerda la fundación de la ciudad de Ibarra el 28 de septiembre de 1606, realizada por los colonizadores españoles; se celebran desfiles y actividades culturales.",
-                    LocalDate.of(2025, 9, 28),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fiesta del Yamor",
-                    "Festival tradicional en Otavalo, a inicios de septiembre, en agradecimiento a la cosecha; incluye desfiles, música, danza y la degustación del Yamor (bebida de maíz).",
-                    LocalDate.of(2025, 9, 6),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Sigsig").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta de la Virgen de Guadalupe",
+                                        "Celebración religiosa tradicional del Sigsig.",
+                                        LocalDate.of(2025, 12, 12),
+                                        canton));
+                });
 
-        // Loja
-        provinciaRepository.findByNombre("Loja").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Independencia de Loja",
-                    "Conmemora la independencia de Loja del 18 de noviembre de 1820, con desfiles cívicos, sesión solemne y eventos artísticos en la ciudad de Loja.",
-                    LocalDate.of(2025, 11, 18),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fundación de Loja",
-                    "Celebra la fundación de la ciudad de Loja (8 de diciembre de 1548) por Alonso de Mercadillo; se realizan eventos culturales y festivales tradicionales en diciembre.",
-                    LocalDate.of(2025, 12, 8),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Chordeleg").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Joyería",
+                                        "Feria y eventos en honor al arte joyero de Chordeleg.",
+                                        LocalDate.of(2025, 10, 15),
+                                        canton));
+                });
 
-        // Los Ríos
-        provinciaRepository.findByNombre("Los Ríos").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Babahoyo",
-                    "Conmemora la fundación de Babahoyo, capital de Los Ríos, el 27 de mayo de 1869; se realizan desfiles fluviales en el río Babahoyo y actos culturales.",
-                    LocalDate.of(2025, 5, 27),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Los Ríos",
-                    "Celebra la creación de la provincia de Los Ríos el 6 de octubre de 1860, decretada por Gabriel García Moreno; incluye desfiles y eventos cívicos en Babahoyo y Quevedo.",
-                    LocalDate.of(2025, 10, 6),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Camilo Ponce Enríquez").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Aniversario de cantonización",
+                                        "Fiesta por la creación del cantón.",
+                                        LocalDate.of(2025, 7, 14),
+                                        canton));
+                });
 
-        // Manabí
-        provinciaRepository.findByNombre("Manabí").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Portoviejo",
-                    "Fiesta provincial que celebra la fundación de Portoviejo, capital de Manabí, el 12 de marzo de 1535; se realizan desfiles, ferias y eventos culturales en la ciudad.",
-                    LocalDate.of(2025, 3, 12),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Portoviejo",
-                    "Recuerda la proclamación de independencia de Portoviejo del 18 de octubre de 1820, con actos cívicos, desfiles estudiantiles y festividades en toda la provincia.",
-                    LocalDate.of(2025, 10, 18),
-                    provincia));
-        });
+                cantonRepository.findByNombre("El Pan").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de San Vicente",
+                                        "Fiestas religiosas del cantón El Pan.",
+                                        LocalDate.of(2025, 1, 22),
+                                        canton));
+                });
 
-        // Morona Santiago
-        provinciaRepository.findByNombre("Morona Santiago").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Cantonización de Macas",
-                    "Aniversario de la cantonización de Macas, actual capital de Morona Santiago; se conmemora cada 29 de mayo con desfiles, actos cívicos y eventos culturales locales.",
-                    LocalDate.of(2025, 5, 29),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Morona Santiago",
-                    "Conmemora la creación de la provincia de Morona Santiago el 10 de noviembre de 1953, tras su separación de la antigua provincia de Santiago-Zamora; se realizan actos cívicos en Macas.",
-                    LocalDate.of(2025, 11, 10),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Sevilla de Oro").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta de la Virgen del Carmen",
+                                        "Fiesta religiosa tradicional de Sevilla de Oro.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
 
-        // Napo
-        provinciaRepository.findByNombre("Napo").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Napo",
-                    "Recuerda la creación de la provincia de Napo el 10 de noviembre de 1959, luego de la reorganización de la Región Amazónica; se celebra con eventos cívicos en Tena.",
-                    LocalDate.of(2025, 2, 11),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fundación de Tena",
-                    "Conmemora la fundación de San Juan de los Dos Ríos de Tena el 15 de noviembre de 1560, conocida hoy simplemente como Tena, con festividades culturales y exposiciones locales.",
-                    LocalDate.of(2025, 11, 15),
-                    provincia));
-        });
+                // 🎉 Festividades en la provincia de Bolívar
+                cantonRepository.findByNombre("Guaranda").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Carnaval de Guaranda",
+                                        "Celebración popular con comparsas, coplas, comida típica y danzas. Es uno de los carnavales más representativos del país.",
+                                        LocalDate.of(2025, 2, 28),
+                                        canton));
+                });
 
-        // Orellana
-        provinciaRepository.findByNombre("Orellana").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Cantonización de Puerto Francisco de Orellana (Coca)",
-                    "Aniversario de la cantonización de la ciudad de Coca, actual Puerto Francisco de Orellana, celebrado el 20 de abril con desfiles cívicos y eventos culturales amazónicos.",
-                    LocalDate.of(2025, 4, 20),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Orellana",
-                    "Celebra la creación de la provincia de Orellana el 30 de julio de 1998; se realizan actos cívicos en la ciudad de Coca y otras localidades en conmemoración del aniversario provincial.",
-                    LocalDate.of(2025, 7, 30),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Chillanes").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Chillanes",
+                                        "Fiestas cívicas y culturales por la fundación del cantón.",
+                                        LocalDate.of(2025, 8, 2),
+                                        canton));
+                });
 
-        // Pastaza
-        provinciaRepository.findByNombre("Pastaza").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Puyo",
-                    "Celebra la fundación de la ciudad de Puyo, capital de Pastaza, el 12 de mayo de 1899 por misioneros dominicos; incluye desfiles, ferias y exposiciones de la cultura amazónica.",
-                    LocalDate.of(2025, 5, 12),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Pastaza",
-                    "Conmemora la creación de la provincia de Pastaza el 10 de noviembre de 1959, tras separarse de Napo-Pastaza; se realizan eventos cívicos y desfiles en Puyo y sus alrededores.",
-                    LocalDate.of(2025, 11, 10),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Chimbo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Carmen",
+                                        "Celebraciones religiosas y culturales en honor a la Virgen del Carmen.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
 
-        // Pichincha
-        provinciaRepository.findByNombre("Pichincha").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Quito (Fiestas de Quito)",
-                    "Fiestas de Quito en conmemoración de la fundación de San Francisco de Quito el 6 de diciembre de 1534; la capital se engalana con desfiles, conciertos, bailes populares y eventos culturales.",
-                    LocalDate.of(2025, 12, 6),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fiesta de la Virgen de El Quinche",
-                    "Fiesta religiosa tradicional en la parroquia de El Quinche (Pichincha), con peregrinaciones multitudinarias cada 21 de noviembre para venerar a la Virgen de El Quinche, acompañadas de misas y celebraciones populares.",
-                    LocalDate.of(2025, 11, 21),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Echeandía").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San José",
+                                        "Fiestas religiosas en honor a San José, patrono del cantón.",
+                                        LocalDate.of(2025, 3, 19),
+                                        canton));
+                });
 
-        // Santa Elena
-        provinciaRepository.findByNombre("Santa Elena").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Cantonización de Santa Elena",
-                    "Conmemora la cantonización de Santa Elena el 22 de enero de 1839 durante el gobierno de Vicente Rocafuerte; se celebra con desfiles cívicos, eventos folclóricos y feria gastronómica en la cabecera cantonal.",
-                    LocalDate.of(2025, 1, 21),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Santa Elena",
-                    "Celebra la creación de la provincia de Santa Elena el 7 de noviembre de 2007, cuando se separó de la provincia del Guayas; se realizan desfiles estudiantiles, actos cívicos y eventos culturales en toda la península.",
-                    LocalDate.of(2025, 11, 7),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Las Naves").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Las Naves",
+                                        "Fiestas cívicas y culturales celebradas en abril.",
+                                        LocalDate.of(2025, 4, 1),
+                                        canton));
+                });
 
-        // Santo Domingo de los Tsáchilas
-        provinciaRepository.findByNombre("Santo Domingo de los Tsáchilas").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Cantonización de Santo Domingo",
-                    "Fiesta cantonal que recuerda la cantonización de Santo Domingo de los Colorados el 3 de julio de 1967, cuando pasó a ser cantón de Pichincha; se celebra con desfiles interculturales y exposiciones de la cultura Tsáchila.",
-                    LocalDate.of(2025, 7, 3),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Santo Domingo",
-                    "Conmemora la creación de la provincia de Santo Domingo de los Tsáchilas el 6 de noviembre de 2007 (separación de Pichincha); se llevan a cabo sesiones solemnes, desfiles y festivales que resaltan la cultura Tsáchila.",
-                    LocalDate.of(2025, 11, 6),
-                    provincia));
-        });
+                cantonRepository.findByNombre("San Miguel").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Miguel",
+                                        "Fiestas religiosas en honor al patrono San Miguel.",
+                                        LocalDate.of(2025, 9, 29),
+                                        canton));
+                });
 
-        // Sucumbíos
-        provinciaRepository.findByNombre("Sucumbíos").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Sucumbíos",
-                    "Conmemora la creación de la provincia de Sucumbíos el 13 de febrero de 1989, cuando se separó de Napo; se celebran actos cívicos y desfiles en Nueva Loja (Lago Agrio) y otros cantones.",
-                    LocalDate.of(2025, 2, 13),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Fundación de Nueva Loja (Lago Agrio)",
-                    "Recuerda la fundación de Nueva Loja (Lago Agrio), capital de Sucumbíos, el 5 de mayo de 1971 como asentamiento petrolero; se realizan eventos culturales y ferias gastronómicas para celebrar su aniversario.",
-                    LocalDate.of(2025, 5, 5),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Caluma").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización",
+                                        "Aniversario de creación del cantón Caluma.",
+                                        LocalDate.of(2025, 1, 31),
+                                        canton));
+                });
 
-        // Tungurahua
-        provinciaRepository.findByNombre("Tungurahua").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fiesta de la Fruta y de las Flores (Carnaval de Ambato)",
-                    "Tradicional carnaval de Ambato celebrado el lunes y martes de Carnaval, con el famoso desfile de la Fiesta de la Fruta y de las Flores donde recorren carrozas adornadas con flores, frutas y pan, acompañadas de comparsas y música.",
-                    LocalDate.of(2025, 3, 2),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Ambato",
-                    "Conmemora la independencia de Ambato del 12 de noviembre de 1820; se celebra con desfiles cívicos, sesión solemne y festivales artísticos en la ciudad de Ambato.",
-                    LocalDate.of(2025, 11, 12),
-                    provincia));
-        });
+                // 🎉 Festividades en la provincia de Cañar
+                cantonRepository.findByNombre("Azogues").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Azogues",
+                                        "Conmemoración de la fundación de Azogues el 4 de octubre de 1825 con desfiles, danzas y ferias.",
+                                        LocalDate.of(2025, 10, 4),
+                                        canton));
+                });
 
-        // Zamora Chinchipe
-        provinciaRepository.findByNombre("Zamora Chinchipe").ifPresent(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Fundación de Zamora",
-                    "Conmemora la fundación de la ciudad de Zamora el 6 de octubre de 1549 por Hernando de Barahona; se celebran actos cívicos, desfiles y eventos culturales que resaltan la historia de la ciudad.",
-                    LocalDate.of(2025, 10, 6),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Provincialización de Zamora Chinchipe",
-                    "Celebra la creación de la provincia de Zamora Chinchipe el 10 de noviembre de 1953, cuando se dividió la antigua provincia de Santiago-Zamora; incluye desfiles, eventos culturales y una sesión solemne en la ciudad de Zamora.",
-                    LocalDate.of(2025, 11, 10),
-                    provincia));
+                cantonRepository.findByNombre("Biblián").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Rocío",
+                                        "Celebración religiosa en honor a la Virgen del Rocío, en el santuario sobre la colina de Zhalao.",
+                                        LocalDate.of(2025, 9, 8),
+                                        canton));
+                });
 
-        });
-        // FERIADOS NACIONALES (para todas las provincias)
-        provinciaRepository.findAll().forEach(provincia -> {
-            festividadRepository.save(new Festividad(
-                    "Año Nuevo",
-                    "Celebración del inicio del nuevo año en todo el país",
-                    LocalDate.of(2025, 1, 1),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Carnaval (Lunes)",
-                    "Primera jornada del Carnaval en Ecuador",
-                    LocalDate.of(2025, 3, 3),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Carnaval (Martes)",
-                    "Segunda jornada del Carnaval en Ecuador",
-                    LocalDate.of(2025, 3, 4),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Viernes Santo",
-                    "Conmemoración religiosa cristiana",
-                    LocalDate.of(2025, 4, 18),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Día del Trabajo",
-                    "Celebración del Día Internacional del Trabajador",
-                    LocalDate.of(2025, 5, 1),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Batalla de Pichincha",
-                    "Conmemoración de la batalla que consolidó la independencia del Ecuador",
-                    LocalDate.of(2025, 5, 24),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Primer Grito de Independencia",
-                    "Conmemoración del 10 de agosto de 1809",
-                    LocalDate.of(2025, 8, 10),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Independencia de Guayaquil",
-                    "Conmemoración de la independencia de Guayaquil",
-                    LocalDate.of(2025, 10, 9),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Día de los Difuntos",
-                    "Día dedicado a honrar a los fallecidos",
-                    LocalDate.of(2025, 11, 2),
-                    provincia));
-            festividadRepository.save(new Festividad(
-                    "Navidad",
-                    "Celebración del nacimiento de Jesucristo",
-                    LocalDate.of(2025, 12, 25),
-                    provincia));
-        });
+                cantonRepository.findByNombre("Cañar").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Inti Raymi",
+                                        "Celebración ancestral del solsticio de junio con música, danzas y rituales indígenas.",
+                                        LocalDate.of(2025, 6, 21),
+                                        canton));
+                });
 
-    }
+                cantonRepository.findByNombre("Déleg").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Déleg",
+                                        "Fiestas cívicas y religiosas celebradas en honor a San Antonio de Padua.",
+                                        LocalDate.of(2025, 6, 13),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("El Tambo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta del Señor del Buen Suceso",
+                                        "Fiesta tradicional en honor al Señor del Buen Suceso, patrono del cantón.",
+                                        LocalDate.of(2025, 8, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("La Troncal").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización de La Troncal",
+                                        "Fiesta cívica y cultural celebrada el 25 de mayo por la creación del cantón.",
+                                        LocalDate.of(2025, 5, 25),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Suscal").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de El Carmen",
+                                        "Celebración religiosa con procesiones y actos culturales.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Carchi
+                cantonRepository.findByNombre("Tulcán").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Tulcán",
+                                        "Celebración cívica y cultural de la fundación de Tulcán, el 11 de abril.",
+                                        LocalDate.of(2025, 4, 11),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Bolívar").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San José",
+                                        "Celebraciones religiosas y culturales en honor a San José, patrono del cantón Bolívar.",
+                                        LocalDate.of(2025, 3, 19),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Espejo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de El Ángel",
+                                        "Conmemoración de la fundación de la ciudad de El Ángel, cabecera del cantón Espejo.",
+                                        LocalDate.of(2025, 11, 27),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Mira").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de la Caridad",
+                                        "Fiesta religiosa y cultural celebrada en septiembre en Mira.",
+                                        LocalDate.of(2025, 9, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Montúfar").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de San Gabriel",
+                                        "Celebración de la fundación de la ciudad de San Gabriel, cabecera del cantón.",
+                                        LocalDate.of(2025, 6, 18),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("San Pedro de Huaca").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Pedro",
+                                        "Fiesta religiosa en honor a San Pedro, patrono del cantón Huaca.",
+                                        LocalDate.of(2025, 6, 29),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Chimborazo
+                cantonRepository.findByNombre("Riobamba").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Riobamba",
+                                        "Celebración de la fundación española de Riobamba el 15 de agosto de 1534.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Independencia de Riobamba",
+                                        "Conmemoración del 21 de abril de 1822, día de la independencia de Riobamba.",
+                                        LocalDate.of(2025, 4, 21),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Alausí").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de San Pedro",
+                                        "Tradicional fiesta religiosa y cultural celebrada a finales de junio.",
+                                        LocalDate.of(2025, 6, 29),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Chambo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta de San Sebastián",
+                                        "Fiesta patronal del cantón Chambo en honor a San Sebastián.",
+                                        LocalDate.of(2025, 1, 20),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Chunchi").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización de Chunchi",
+                                        "Celebración por el aniversario del cantón, con eventos cívicos y culturales.",
+                                        LocalDate.of(2025, 6, 1),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Colta").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de las Nieves",
+                                        "Celebraciones religiosas tradicionales en agosto.",
+                                        LocalDate.of(2025, 8, 5),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Cumandá").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Cumandá",
+                                        "Eventos culturales, deportivos y sociales en conmemoración de la fundación.",
+                                        LocalDate.of(2025, 10, 20),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Guamote").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Inti Raymi",
+                                        "Fiesta del Sol celebrada en las comunidades indígenas del cantón Guamote.",
+                                        LocalDate.of(2025, 6, 21),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pallatanga").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Rosario",
+                                        "Fiestas religiosas tradicionales en honor a la Virgen del Rosario.",
+                                        LocalDate.of(2025, 10, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Penipe").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Francisco",
+                                        "Celebraciones patronales en honor a San Francisco de Asís.",
+                                        LocalDate.of(2025, 10, 4),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Cotopaxi
+                cantonRepository.findByNombre("Latacunga").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Mama Negra",
+                                        "Fiesta popular religiosa que mezcla tradiciones indígenas, españolas y africanas, celebrada en honor a la Virgen de la Merced.",
+                                        LocalDate.of(2025, 11, 11),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("La Maná").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de La Maná",
+                                        "Conmemoración de la fundación del cantón con desfiles, ferias y eventos deportivos.",
+                                        LocalDate.of(2025, 5, 19),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pangua").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Rosario",
+                                        "Fiesta religiosa principal del cantón Pangua.",
+                                        LocalDate.of(2025, 10, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pujilí").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "El Danzante",
+                                        "Fiesta ancestral de agradecimiento por las cosechas. Declarada Patrimonio Cultural Intangible del Ecuador.",
+                                        LocalDate.of(2025, 6, 29),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Salcedo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Salcedo",
+                                        "Fiesta cívica celebrada con ferias y eventos artísticos en septiembre.",
+                                        LocalDate.of(2025, 9, 19),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Saquisilí").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta del Señor del Árbol",
+                                        "Celebración religiosa tradicional con procesiones, danzas y gastronomía.",
+                                        LocalDate.of(2025, 5, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Sigchos").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Sigchos",
+                                        "Conmemoración de la cantonización de Sigchos con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 9, 23),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de El Oro
+                cantonRepository.findByNombre("Machala").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Machala",
+                                        "Celebración de la fundación de la ciudad, conocida como la capital bananera del mundo.",
+                                        LocalDate.of(2025, 6, 25),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Feria Mundial del Banano",
+                                        "Feria internacional que promueve el banano ecuatoriano con desfiles, ferias y eventos comerciales.",
+                                        LocalDate.of(2025, 9, 23),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Arenillas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Isidro",
+                                        "Celebración religiosa en honor a San Isidro Labrador, patrono de Arenillas.",
+                                        LocalDate.of(2025, 5, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Atahualpa").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Atahualpa",
+                                        "Celebración de la fundación del cantón con actividades tradicionales y culturales.",
+                                        LocalDate.of(2025, 7, 20),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Balsas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Balsas",
+                                        "Fiestas cívicas celebradas en el cantón con ferias, juegos y música.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Chilla").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de la Virgen de Chilla",
+                                        "Celebraciones religiosas en honor a la Virgen de Chilla, con gran afluencia de peregrinos.",
+                                        LocalDate.of(2025, 9, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("El Guabo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de El Guabo",
+                                        "Fiesta cívica y cultural con presentaciones artísticas y gastronomía local.",
+                                        LocalDate.of(2025, 9, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Huaquillas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización de Huaquillas",
+                                        "Celebración de la creación del cantón fronterizo, con eventos cívicos y deportivos.",
+                                        LocalDate.of(2025, 10, 6),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Las Lajas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Las Lajas",
+                                        "Eventos artísticos, ferias y procesiones por el aniversario del cantón.",
+                                        LocalDate.of(2025, 4, 23),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Marcabelí").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización",
+                                        "Actividades culturales, desfiles y actos solemnes en celebración de la cantonización.",
+                                        LocalDate.of(2025, 5, 28),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pasaje").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Pasaje",
+                                        "Conmemoración de la fundación de Pasaje con desfiles cívicos y culturales.",
+                                        LocalDate.of(2025, 4, 17),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Piñas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Piñas",
+                                        "Fiestas religiosas y populares del cantón Piñas, con eventos tradicionales.",
+                                        LocalDate.of(2025, 8, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Portovelo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Portovelo",
+                                        "Fiesta cívica de la ciudad minera, celebrada el 29 de noviembre.",
+                                        LocalDate.of(2025, 11, 29),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Santa Rosa").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Santa Rosa",
+                                        "Celebración religiosa en honor a Santa Rosa de Lima.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Zaruma").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Carmen",
+                                        "Celebración religiosa tradicional del cantón Zaruma.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Esmeraldas
+                cantonRepository.findByNombre("Esmeraldas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Esmeraldas",
+                                        "Conmemoración de la fundación del cantón con actividades afroecuatorianas, desfiles y música.",
+                                        LocalDate.of(2025, 9, 21),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Festival de Marimba",
+                                        "Celebración cultural con música, danza y gastronomía afroesmeraldeña.",
+                                        LocalDate.of(2025, 6, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Atacames").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Carnaval de Atacames",
+                                        "Una de las celebraciones más populares en la playa, con música, comparsas y turismo.",
+                                        LocalDate.of(2025, 3, 2),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Eloy Alfaro").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Carmen",
+                                        "Fiestas religiosas en la parroquia Limones con participación de comunidades afrodescendientes.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Muisne").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Muisne",
+                                        "Celebraciones religiosas, desfiles y regatas en honor a la Virgen de la Merced.",
+                                        LocalDate.of(2025, 9, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Quinindé").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Quinindé",
+                                        "Eventos culturales y ferias por el aniversario de fundación.",
+                                        LocalDate.of(2025, 7, 3),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Rioverde").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Rioverde",
+                                        "Conmemoración cívica con eventos culturales, deportivos y gastronómicos.",
+                                        LocalDate.of(2025, 8, 5),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("San Lorenzo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de San Lorenzo",
+                                        "Fiesta afroecuatoriana con música de marimba, danzas y tradición oral.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Galápagos
+                cantonRepository.findByNombre("San Cristóbal").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta de San Cristóbal",
+                                        "Fiesta patronal del cantón con procesiones, ferias, deportes acuáticos y celebraciones religiosas.",
+                                        LocalDate.of(2025, 7, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Santa Cruz").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Aniversario de Fundación de Puerto Ayora",
+                                        "Celebración cívica con eventos culturales, artísticos y deportivos en la ciudad más poblada de Galápagos.",
+                                        LocalDate.of(2025, 2, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Isabela").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Puerto Villamil",
+                                        "Aniversario de la fundación del poblado de Puerto Villamil, con actividades comunitarias.",
+                                        LocalDate.of(2025, 11, 30),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Guayas
+                cantonRepository.findByNombre("Guayaquil").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Independencia de Guayaquil",
+                                        "Celebración del 9 de octubre de 1820, con desfiles, eventos culturales, fuegos artificiales y conciertos.",
+                                        LocalDate.of(2025, 10, 9),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Fundación de Guayaquil",
+                                        "Conmemoración de la fundación de Santiago de Guayaquil, el 25 de julio.",
+                                        LocalDate.of(2025, 7, 25),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Alfredo Baquerizo Moreno (Jujan)").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Jujan",
+                                        "Celebración cívica del cantón con eventos deportivos, culturales y desfile de comparsas.",
+                                        LocalDate.of(2025, 6, 13),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Balao").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Balao",
+                                        "Conmemoración con festivales gastronómicos y actividades agrícolas.",
+                                        LocalDate.of(2025, 10, 2),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Balzar").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Balzar",
+                                        "Festividades tradicionales con rodeos montubios y juegos populares.",
+                                        LocalDate.of(2025, 9, 26),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Colimes").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Santa Rosa",
+                                        "Celebración religiosa y cultural en honor a Santa Rosa de Lima.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Daule").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San José",
+                                        "Fiesta popular del cantón Daule con desfile náutico y procesiones.",
+                                        LocalDate.of(2025, 3, 19),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Durán").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Durán",
+                                        "Eventos artísticos y culturales celebrando la fundación del cantón.",
+                                        LocalDate.of(2025, 10, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("El Empalme").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de El Empalme",
+                                        "Celebración cívica y cultural con participación de instituciones educativas.",
+                                        LocalDate.of(2025, 7, 27),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("El Triunfo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de El Triunfo",
+                                        "Fiesta montubia con ferias y rodeos en honor a la cantonización.",
+                                        LocalDate.of(2025, 7, 20),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("General Antonio Elizalde (Bucay)").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Bucay",
+                                        "Eventos culturales y deportivos en este cantón turístico de la Sierra-Costa.",
+                                        LocalDate.of(2025, 9, 2),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Isidro Ayora").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Pedro",
+                                        "Fiesta religiosa con procesiones y ferias en honor a San Pedro.",
+                                        LocalDate.of(2025, 6, 29),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Lomas de Sargentillo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de la Virgen de la Merced",
+                                        "Celebración católica con participación de la comunidad.",
+                                        LocalDate.of(2025, 9, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Marcelino Maridueña").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación",
+                                        "Conmemoración de la cantonización con desfiles, concursos y música local.",
+                                        LocalDate.of(2025, 11, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Milagro").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Milagro",
+                                        "Conmemoración de la fundación de este importante centro comercial del Guayas.",
+                                        LocalDate.of(2025, 9, 17),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Naranjal").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Naranjal",
+                                        "Fiesta tradicional con desfiles cívicos, bandas y presentaciones folclóricas.",
+                                        LocalDate.of(2025, 10, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Naranjito").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Naranjito",
+                                        "Celebración con eventos deportivos, desfiles y danzas montubias.",
+                                        LocalDate.of(2025, 6, 1),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Nobol").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Festividad de Narcisa de Jesús",
+                                        "Celebración religiosa en honor a Santa Narcisa de Jesús, nacida en este cantón.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Palestina").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de la Virgen de El Cisne",
+                                        "Fiestas religiosas tradicionales celebradas en septiembre.",
+                                        LocalDate.of(2025, 9, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pedro Carbo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Pedro Carbo",
+                                        "Fiestas cívicas y ferias comerciales en este cantón agrícola.",
+                                        LocalDate.of(2025, 6, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Playas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Carnaval de Playas",
+                                        "Fiesta playera con miles de visitantes, concursos de castillos de arena, música y baile.",
+                                        LocalDate.of(2025, 3, 1),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Salitre").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de San Jacinto",
+                                        "Fiesta patronal con procesiones acuáticas, eventos religiosos y rodeos.",
+                                        LocalDate.of(2025, 8, 17),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Samborondón").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Samborondón",
+                                        "Celebración tradicional con actividades culturales y religiosas.",
+                                        LocalDate.of(2025, 5, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Santa Lucía").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Santa Lucía",
+                                        "Celebración religiosa y cultural con desfile de la comunidad y fuegos artificiales.",
+                                        LocalDate.of(2025, 12, 13),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Simón Bolívar").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Simón Bolívar",
+                                        "Eventos cívicos, artísticos y deportivos para conmemorar la creación del cantón.",
+                                        LocalDate.of(2025, 10, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Yaguachi").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Carmen",
+                                        "Fiesta religiosa más representativa del cantón Yaguachi.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Imbabura
+                cantonRepository.findByNombre("Ibarra").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiesta de los Lagos",
+                                        "Celebración cultural y turística con actividades náuticas, ferias y música tradicional.",
+                                        LocalDate.of(2025, 9, 28),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Fundación de Ibarra",
+                                        "Conmemoración de la fundación de Ibarra el 28 de septiembre de 1606.",
+                                        LocalDate.of(2025, 9, 28),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Antonio Ante").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Carnaval de Atuntaqui",
+                                        "Fiesta popular con comparsas, bailes y desfiles tradicionales.",
+                                        LocalDate.of(2025, 3, 1),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Cotacachi").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Inti Raymi",
+                                        "Fiesta del sol y agradecimiento a la Pachamama, celebrada con danzas y rituales indígenas.",
+                                        LocalDate.of(2025, 6, 21),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Otavalo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Yamor",
+                                        "Fiesta tradicional en honor a la Virgen de Monserrate con música, danza y bebidas típicas.",
+                                        LocalDate.of(2025, 9, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pimampiro").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Pimampiro",
+                                        "Conmemoración cívica con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 8, 26),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Urcuquí").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Chonta",
+                                        "Fiesta ancestral con rituales y música autóctona, propia de la comunidad afroecuatoriana.",
+                                        LocalDate.of(2025, 4, 14),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Loja
+                cantonRepository.findByNombre("Loja").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de El Cisne",
+                                        "Una de las peregrinaciones religiosas más importantes del país, que culmina en la ciudad de Loja.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Independencia de Loja",
+                                        "Conmemoración de la gesta del 18 de noviembre de 1820, con actos cívicos y desfiles.",
+                                        LocalDate.of(2025, 11, 18),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Calvas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Cariamanga",
+                                        "Fiestas religiosas y culturales en honor a la Virgen del Rosario.",
+                                        LocalDate.of(2025, 10, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Catamayo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de la Virgen del Carmen",
+                                        "Celebración religiosa con procesiones, ferias y danzas tradicionales.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Celica").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Celica",
+                                        "Celebración cívica con eventos deportivos y culturales.",
+                                        LocalDate.of(2025, 10, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Chaguarpamba").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Chaguarpamba",
+                                        "Eventos con música típica, concursos y actividades tradicionales.",
+                                        LocalDate.of(2025, 6, 28),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Espíndola").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de la Virgen de la Nube",
+                                        "Celebración mariana con participación de parroquias rurales y música religiosa.",
+                                        LocalDate.of(2025, 6, 5),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Gonzanamá").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Vicente Ferrer",
+                                        "Festividades religiosas, procesiones y actos culturales.",
+                                        LocalDate.of(2025, 4, 5),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Macará").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización de Macará",
+                                        "Eventos culturales y deportivos que celebran la creación del cantón.",
+                                        LocalDate.of(2025, 6, 22),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Olmedo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Olmedo",
+                                        "Actos cívicos, desfiles escolares y eventos deportivos.",
+                                        LocalDate.of(2025, 6, 29),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Paltas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Carmen en Catacocha",
+                                        "Una de las fiestas más representativas del cantón, con gran devoción popular.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pindal").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Vicente",
+                                        "Celebración con procesiones religiosas y presentaciones artísticas.",
+                                        LocalDate.of(2025, 4, 5),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Puyango").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Carmen en Alamor",
+                                        "Festividad religiosa con actividades culturales y devocionales.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Quilanga").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Francisco",
+                                        "Fiesta tradicional con juegos populares y misa campal.",
+                                        LocalDate.of(2025, 10, 4),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Saraguro").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Kapak Raymi",
+                                        "Fiesta ancestral del pueblo Saraguro que celebra el solsticio de diciembre.",
+                                        LocalDate.of(2025, 12, 21),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Sozoranga").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Sozoranga",
+                                        "Eventos cívicos, deportivos y culturales en el cantón.",
+                                        LocalDate.of(2025, 10, 20),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Zapotillo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen del Tránsito",
+                                        "Festividad religiosa con procesiones en la frontera sur del país.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Los Ríos
+                cantonRepository.findByNombre("Babahoyo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Babahoyo",
+                                        "Celebración cívica con desfiles, ferias y actividades culturales en la capital de la provincia.",
+                                        LocalDate.of(2025, 10, 3),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Baba").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Baba",
+                                        "Eventos religiosos y culturales en honor a su patrona.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Montalvo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Montalvo",
+                                        "Actividades culturales y recreativas para celebrar la cantonización.",
+                                        LocalDate.of(2025, 5, 25),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Palenque").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Palenque",
+                                        "Celebraciones religiosas y desfiles en honor a la Virgen del Carmen.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Puebloviejo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Puebloviejo",
+                                        "Eventos con música tradicional, ferias y actividades comunitarias.",
+                                        LocalDate.of(2025, 9, 10),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Quevedo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Quevedo",
+                                        "Celebración cívica con conciertos, desfiles y actividades deportivas.",
+                                        LocalDate.of(2025, 9, 3),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Ventanas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Ventanas",
+                                        "Actividades culturales y religiosas en honor a la Virgen de la Merced.",
+                                        LocalDate.of(2025, 9, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Vinces").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Vinces",
+                                        "Eventos tradicionales con música y bailes folclóricos.",
+                                        LocalDate.of(2025, 11, 15),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Manabí
+                cantonRepository.findByNombre("Portoviejo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Portoviejo",
+                                        "Celebración cívica con desfiles, ferias y eventos culturales en la capital provincial.",
+                                        LocalDate.of(2025, 3, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Manta").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Manta",
+                                        "Eventos culturales, deportivos y ferias en honor a la cantonización.",
+                                        LocalDate.of(2025, 9, 14),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Chone").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Chone",
+                                        "Celebraciones con eventos tradicionales y actividades folclóricas.",
+                                        LocalDate.of(2025, 10, 6),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Jipijapa").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Jipijapa",
+                                        "Celebración religiosa y cultural con misas, procesiones y conciertos.",
+                                        LocalDate.of(2025, 11, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Montecristi").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Montecristi",
+                                        "Eventos culturales en honor a la creación del cantón y al sombrero de paja toquilla.",
+                                        LocalDate.of(2025, 9, 24),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("El Carmen").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de El Carmen",
+                                        "Celebración religiosa con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 11, 11),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Santa Ana").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Santa Ana",
+                                        "Eventos religiosos y culturales en honor a su patrona.",
+                                        LocalDate.of(2025, 7, 26),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Puerto López").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Puerto López",
+                                        "Celebración con actividades turísticas, culturales y deportivas.",
+                                        LocalDate.of(2025, 8, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Jama").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Jama",
+                                        "Eventos culturales y religiosos en honor a la Virgen del Carmen.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Paján").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Paján",
+                                        "Celebraciones con ferias agrícolas y actividades folclóricas.",
+                                        LocalDate.of(2025, 11, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Jaramijó").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Jaramijó",
+                                        "Eventos religiosos con procesiones y festivales culturales.",
+                                        LocalDate.of(2025, 6, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Bojayá").ifPresent(canton -> {
+                        // Bojayá no pertenece a Manabí, ignóralo o corrige
+                });
+
+                cantonRepository.findByNombre("24 de Mayo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de 24 de Mayo",
+                                        "Eventos cívicos y culturales para celebrar el cantón.",
+                                        LocalDate.of(2025, 9, 3),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Morona Santiago
+                cantonRepository.findByNombre("Macas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Macas",
+                                        "Celebración de la cantonización con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 8, 22),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Gualaquiza").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Gualaquiza",
+                                        "Eventos religiosos y culturales en honor a la Virgen de la Asunción.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Limón Indanza").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Limón Indanza",
+                                        "Celebración con actos culturales y deportivos en la comunidad.",
+                                        LocalDate.of(2025, 9, 14),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Logroño").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Logroño",
+                                        "Festividades tradicionales con música y bailes autóctonos.",
+                                        LocalDate.of(2025, 7, 20),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Morona").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Morona",
+                                        "Eventos culturales y religiosos en esta zona amazónica.",
+                                        LocalDate.of(2025, 9, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pablo Sexto").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Pablo Sexto",
+                                        "Celebración religiosa con procesiones y actos culturales.",
+                                        LocalDate.of(2025, 6, 29),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Palora").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Palora",
+                                        "Festividades con participación de comunidades indígenas y mestizas.",
+                                        LocalDate.of(2025, 8, 10),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("San Juan Bosco").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de San Juan Bosco",
+                                        "Celebración religiosa y cultural en honor al santo patrono.",
+                                        LocalDate.of(2025, 1, 31),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Santiago").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Santiago",
+                                        "Eventos tradicionales con misas y actividades artísticas.",
+                                        LocalDate.of(2025, 7, 25),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Sucúa").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Sucúa",
+                                        "Celebración cívica con desfiles, música y eventos deportivos.",
+                                        LocalDate.of(2025, 11, 12),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Napo
+                cantonRepository.findByNombre("Tena").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Tena",
+                                        "Celebración con actividades culturales, deportivas y religiosas.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Archidona").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Archidona",
+                                        "Eventos en honor a la Virgen del Carmen, con procesiones y ferias.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("El Chaco").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de El Chaco",
+                                        "Celebración local con actos culturales y deportivos.",
+                                        LocalDate.of(2025, 10, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Carlos Julio Arosemena Tola").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización",
+                                        "Celebración con actividades comunitarias y culturales.",
+                                        LocalDate.of(2025, 9, 20),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Orellana
+                cantonRepository.findByNombre("Loreto").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Loreto",
+                                        "Celebración con eventos culturales y actividades comunitarias.",
+                                        LocalDate.of(2025, 9, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Aguarico").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Aguarico",
+                                        "Celebraciones en honor a la Virgen de la Asunción con ferias y música tradicional.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Joya de los Sachas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Cantonización de Joya de los Sachas",
+                                        "Eventos culturales y deportivos para celebrar la creación del cantón.",
+                                        LocalDate.of(2025, 7, 10),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Orellana").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Orellana",
+                                        "Celebraciones cívicas y culturales en la capital provincial.",
+                                        LocalDate.of(2025, 8, 22),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Pastaza
+                cantonRepository.findByNombre("Pastaza").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Pastaza",
+                                        "Celebración cívica con eventos culturales y actividades comunitarias.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Mera").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Mera",
+                                        "Celebraciones religiosas con procesiones y actividades culturales.",
+                                        LocalDate.of(2025, 9, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Santa Clara").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Santa Clara",
+                                        "Eventos religiosos y festivos en honor a su patrona.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Arajuno").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Arajuno",
+                                        "Celebración local con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 7, 20),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Pichincha
+                cantonRepository.findByNombre("Quito").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fundación de Quito",
+                                        "Conmemoración de la fundación española de Quito el 6 de diciembre de 1534, con fiestas, eventos y desfiles.",
+                                        LocalDate.of(2025, 12, 6),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Quito",
+                                        "Celebración anual con actividades culturales, deportivas y religiosas en la capital del país.",
+                                        LocalDate.of(2025, 12, 6),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Cayambe").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de la Virgen de el Cisne",
+                                        "Celebración religiosa con procesiones y actividades culturales.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Mejía").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Mejía",
+                                        "Eventos culturales y deportivos en la parroquia de Mejía.",
+                                        LocalDate.of(2025, 10, 10),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pedro Moncayo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Pedro Moncayo",
+                                        "Celebraciones religiosas y culturales con actos comunitarios.",
+                                        LocalDate.of(2025, 11, 20),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Santa Elena
+                cantonRepository.findByNombre("Santa Elena").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Santa Elena",
+                                        "Celebración con desfiles, conciertos y actividades culturales en la capital provincial.",
+                                        LocalDate.of(2025, 10, 7),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("La Libertad").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de La Libertad",
+                                        "Celebraciones religiosas y culturales con procesiones y eventos comunitarios.",
+                                        LocalDate.of(2025, 8, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Salinas").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Salinas",
+                                        "Eventos turísticos y culturales en esta conocida ciudad costera.",
+                                        LocalDate.of(2025, 7, 14),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Santo Domingo de los Tsáchilas
+                cantonRepository.findByNombre("Santo Domingo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Santo Domingo",
+                                        "Celebraciones cívicas y culturales en honor a la cantonización con desfiles y eventos deportivos.",
+                                        LocalDate.of(2025, 10, 1),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("La Concordia").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de La Concordia",
+                                        "Eventos religiosos y culturales con actividades comunitarias y ferias.",
+                                        LocalDate.of(2025, 11, 15),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Sucumbíos
+                cantonRepository.findByNombre("Nueva Loja").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Nueva Loja",
+                                        "Celebraciones cívicas con actividades culturales, deportivas y sociales en la capital provincial.",
+                                        LocalDate.of(2025, 10, 8),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("González Suárez").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de González Suárez",
+                                        "Eventos religiosos y culturales en honor a la Virgen del Carmen.",
+                                        LocalDate.of(2025, 7, 16),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Putumayo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Putumayo",
+                                        "Celebraciones locales con ferias y actividades culturales.",
+                                        LocalDate.of(2025, 9, 22),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Shushufindi").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Shushufindi",
+                                        "Actividades culturales y recreativas en la zona amazónica.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Sucumbíos").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Sucumbíos",
+                                        "Celebración religiosa con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 11, 20),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Tungurahua
+                cantonRepository.findByNombre("Ambato").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Ambato",
+                                        "Celebraciones cívicas y culturales, destacando el Carnaval de las Flores y las Frutas.",
+                                        LocalDate.of(2025, 2, 28),
+                                        canton));
+                        festividadRepository.save(new Festividad(
+                                        "Carnaval de Ambato",
+                                        "Fiesta tradicional con desfiles, música y eventos culturales en honor a la ciudad.",
+                                        LocalDate.of(2025, 2, 28),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Baños de Agua Santa").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Baños",
+                                        "Celebración religiosa y cultural en honor a la Virgen del Rosario.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Pelileo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Pelileo",
+                                        "Eventos culturales y deportivos con ferias y concursos.",
+                                        LocalDate.of(2025, 11, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Píllaro").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Píllaro",
+                                        "Celebración tradicional con eventos religiosos y culturales.",
+                                        LocalDate.of(2025, 9, 22),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Tisaleo").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Tisaleo",
+                                        "Celebraciones con actos culturales y recreativos.",
+                                        LocalDate.of(2025, 10, 10),
+                                        canton));
+                });
+
+                // 🎉 Festividades en la provincia de Zamora Chinchipe
+                cantonRepository.findByNombre("Zamora").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Zamora",
+                                        "Celebración cívica con eventos culturales, deportivos y actividades comunitarias.",
+                                        LocalDate.of(2025, 10, 12),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Yantzaza").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Yantzaza",
+                                        "Celebraciones religiosas y culturales con ferias y actividades tradicionales.",
+                                        LocalDate.of(2025, 7, 25),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Centinela del Cóndor").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Centinela del Cóndor",
+                                        "Eventos culturales y recreativos en honor a la creación del cantón.",
+                                        LocalDate.of(2025, 9, 15),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Chinchipe").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Chinchipe",
+                                        "Celebración religiosa con eventos culturales y deportivos.",
+                                        LocalDate.of(2025, 8, 30),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Nangaritza").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Nangaritza",
+                                        "Actividades religiosas y culturales en la comunidad.",
+                                        LocalDate.of(2025, 9, 5),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Palanda").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas de Fundación de Palanda",
+                                        "Celebración con eventos culturales y ferias tradicionales.",
+                                        LocalDate.of(2025, 11, 10),
+                                        canton));
+                });
+
+                cantonRepository.findByNombre("Paquisha").ifPresent(canton -> {
+                        festividadRepository.save(new Festividad(
+                                        "Fiestas Patronales de Paquisha",
+                                        "Eventos religiosos y actividades comunitarias.",
+                                        LocalDate.of(2025, 8, 12),
+                                        canton));
+                });
+
+                System.out.println("✔ Festividades por cantón insertadas correctamente.");
+        }
 }

@@ -24,14 +24,14 @@ public class Festividad {
     private LocalDate fecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "provincia_id")
-    private Provincia provincia;
+    @JoinColumn(name = "canton_id")
+    private Canton canton;
 
     // Constructor adicional para usar en Seeder sin ID
-    public Festividad(String nombre, String descripcion, LocalDate fecha, Provincia provincia) {
+    public Festividad(String nombre, String descripcion, LocalDate fecha, Canton canton) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        this.provincia = provincia;
+        this.canton = canton;
     }
 }

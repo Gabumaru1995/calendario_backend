@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ProvinciaRepository extends JpaRepository<Provincia, Long> {
     Optional<Provincia> findByNombre(String nombre);  // ✅ AGREGA ESTA LÍNEA
+    
 }
