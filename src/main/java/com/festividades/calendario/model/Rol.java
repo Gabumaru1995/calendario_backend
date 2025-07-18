@@ -4,24 +4,20 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Usuario {
+public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
+    private String descripcion;
 
-    @Column(unique = true)
-    private String email;
-
-    private String password;
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL)
     private List<UsuarioRol> usuarioRoles;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Recordatorio> recordatorios;
+    @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL)
+    private List<RolFuncionalidad> rolFuncionalidades;
 
     // Getters y setters
 
@@ -41,20 +37,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public List<UsuarioRol> getUsuarioRoles() {
@@ -65,11 +53,11 @@ public class Usuario {
         this.usuarioRoles = usuarioRoles;
     }
 
-    public List<Recordatorio> getRecordatorios() {
-        return recordatorios;
+    public List<RolFuncionalidad> getRolFuncionalidades() {
+        return rolFuncionalidades;
     }
 
-    public void setRecordatorios(List<Recordatorio> recordatorios) {
-        this.recordatorios = recordatorios;
+    public void setRolFuncionalidades(List<RolFuncionalidad> rolFuncionalidades) {
+        this.rolFuncionalidades = rolFuncionalidades;
     }
 }
